@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locked Page</title>
+</head>
+<body>
+
+    <!-- REAL PAGE -->
+    <div id="mainPage" hidden>
+        <h1>huh!</h1>
+        <h1>impossible</h1>
+        <p>u manged to get the password right well there is nothing u can do here just void and a silly boutton</p>
+<a href="bubu game.html" > 
+    <button> just a silly boutton </button>
+</a>
+
+
+
+    </div>
+
+    <!-- LOCK SCREEN -->
+    <div id="lockScreen">
+        <h1>yo did touched the horny button don't ya </h1>
+<p>hmmmm well u wont guess the password </p>
+
+        <input
+            type="password"
+            id="code"
+            placeholder="Enter code"
+        >
+
+        <button onclick="unlock()">Unlock</button>
+
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const correctCode = "505";
+
+        function unlock() {
+            let userCode = document.getElementById("code").value;
+
+            if (userCode === correctCode) {
+                document.getElementById("lockScreen").hidden = true;
+                document.getElementById("mainPage").hidden = false;
+            } else {
+         document.getElementById("message").textContent =
+                    " wrong password baby can u hear me i can't help u that much i just know that the password related to our first date ";
+            }
+            }
+    </script>
+
+</body>
+</html>

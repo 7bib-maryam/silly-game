@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+<title>bubu</title>
+<style>
+body {
+text-align: center;
+font-family: Arial;
+}
+canvas {
+border: 3px solid white;
+}
+.controls {
+direction: ltr;
+}
+button {
+padding: 12px;
+margin: 3px;
+font-size: 20px;
+cursor: pointer;
+}
+#winPopup {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.7);
+justify-content: center;
+align-items: center;
+}
+.popup-content {
+background: white;
+padding: 20px;
+border-radius: 15px;
+width: 280px;
+}
+.popup-content img {
+width: 100%;
+border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+<h2>try to win hihihihihi</h2>
+<canvas id="game"
+width="280" height="280"></canvas>
+<div class="controls">
+<div>
+<button onclick="move(0,-1)">▲</button>
+</div>
+<div>
+<button onclick="move(-1,0)">◀</button>
+<button onclick="move(0,1)">▼</button>
+<button onclick="move(1,0)">▶</button>
+</div>
+<div id="winPopup">
+<div class="popup-content">
+<img src="wedding.png">
+<h2>yaaaaaaaaaaaay my baby</h2>
+<p>we won</p>
+<button onclick="reset()">
+play again </button>
+<button onclick="closePopup()">
+close
+</button>
+</div>
+</div>
+
+<script>
+    const canvas =
+document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let player = {
+x: 0,
+y: 3,
+direction: "right"
+};
+
+const goal = {
+x: 3,
+y: 3
+};
+
+let won = false;
+const images = {
+up: new Image(),
+down: new Image(),
+left: new Image(),
+right: new Image()
+};
+
+images.up.src = "up.png";
+images.down.src = "down.png";
+images.left.src = "left.png";
+images.right.src = "right.png";
+
+const heart = new Image();
+heart.src = "babe.png";
+function draw() {
+ctx.clearRect(0,0,280,280);
+
+
+ctx.beginPath();
+ctx.strokeStyle = "#ffffff" ;
+ctx.lineWidth = 4;
+
+
+ctx.moveTo(70,280);
+ctx.lineTo(70,70);
+
+ctx.moveTo(140,0);
+ctx.lineTo(140,210);
+
+ctx.moveTo(210,280);
+ctx.lineTo(210,70);
+
+ctx.stroke();
+if (heart.complete && heart.naturalWidth > 0) {
+ctx.drawImage(heart,
+goal.x*70+10, goal.y*70+10, 50, 50);
+}
+
+const img = images[player.direction];
+
+if (img.complete && img.naturalWidth > 0) {
+ctx.drawImage(img,
+player.x*70+10, player.y*70+10, 50, 50);
+}
+}
+function move(dx,dy) {
+if (won) return;
+
+let x = player.x+dx;
+let y = player.y+dy;
+
+if (x<0 || x>3 || y<0 || y>3) return;
+
+if (dx!==0) {
+if (((player.x===0 && x===1) ||
+(player.x===1 && x===0)) && y>=1) return;
+
+if (((player.x===1 && x===2) ||
+(player.x===2 && x===1)) && y<=2) return;
+
+if (((player.x===2 && x===3) ||
+(player.x===3 && x===2)) && y>=1) return;
+}
+
+if (dx===1) player.direction="right";
+if (dx===-1) player.direction="left";
+if (dy===1) player.direction="down";
+if (dy===-1) player.direction="up";
+
+player.x=x;
+player.y=y;
+draw();
+
+if (player.x===goal.x && player.y===goal.y) {
+won=true;
+showPopup();
+}
+}
+
+function showPopup() {
+document.getElementById("winPopup").style.display="flex";
+}
+
+function closePopup() {
+document.getElementById("winPopup").style.display="none";
+}
+
+function reset() {
+player={x:0,y:3,direction:"right"};
+won=false;
+closePopup();
+draw();
+}
+
+document.addEventListener("keydown",function(e) {
+if(e.key==="ArrowUp") move(0,-1);
+if(e.key==="ArrowDown") move(0,1);
+if(e.key==="ArrowLeft") move(-1,0);
+if(e.key==="ArrowRight") move(1,0);
+});
+
+draw();
+document.body.style.background = "pink"
+
+</script>
+</body>
+</html>
